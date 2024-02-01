@@ -69,7 +69,7 @@
     "          redirect: 'follow'\n",
     "        };\n",
     "\n",
-    "      fetch(\"http://localhost:8086/api/users/authenticate\", requestOptions)\n",
+    "      fetch(\"http://localhost:8032/api/users/authenticate\", requestOptions)\n",
     "          .then(response => {\n",
     "            if (response.ok) {\n",
     "                console.log(\"User logged in successfully\");\n",
