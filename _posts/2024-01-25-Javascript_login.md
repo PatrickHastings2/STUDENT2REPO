@@ -1,137 +1,91 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "---\n",
-    "toc: true\n",
-    "comments: true\n",
-    "layout: post\n",
-    "title: SASS Javascript Login and Signup Page\n",
-    "description: SASS Javascript login and signup page from Team Teach\n",
-    "courses: { compsci: {week: 20} }\n",
-    "type: hacks\n",
-    "---"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
-   "metadata": {
-    "vscode": {
-     "languageId": "html"
+---
+toc: true 
+comments: false 
+layout: post 
+title: Login
+type: hacks
+courses: { compsci: {week: 20} }
+---
+
+<html lang="en">
+
+<head>
+<script>    //import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';
+    function login_user() {
+      const enteredUid = document.getElementById("uid").value;
+      const enteredPassword = document.getElementById("password").value;
+      console.log("Uid = " + enteredUid)
+      console.log("Password = " + enteredPassword)
+      const signupHeaders = new Headers();
+      signupHeaders.set('111', '222');
+      signupHeaders.set("Accept", "*/*");
+      signupHeaders.set("Accept-Language", "en-US,en;q=0.9");
+      signupHeaders.set("Content-Type", "application/json");
+      login_api(enteredUid,enteredPassword)
+      }
+    function login_api(uid, pw){
+      var myHeaders = new Headers();
+      myHeaders.append("Accept", "*/*");
+      myHeaders.append("Accept-Language", "en-US,en;q=0.9");
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", "jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfdWlkIjoidG9ueSJ9.jEShka0oXI1-uCuSTfo3ed5WRw3ASLNV0Tpn1kc5GB0");
+      var raw = JSON.stringify({
+          "uid": uid,
+          "password": pw
+        });
+      var requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+      fetch("http://127.0.0.1:8052/api/users/authenticate", requestOptions)
+          .then(response => {
+            if (response.ok) {
+                console.log("User logged in successfully");
+                window.location.href = "https://www.amazon.com/"
+              } else {
+                console.error("User login failed");
+                // You can handle failed login attempts here
+                const errorMessageDiv = document.getElementById('errorMessage');
+                errorMessageDiv.innerHTML = '<label style="color: red;">User Login Failed</label>';
+              }
+          })
+          .then(result => { 
+            console.log(result);
+            })
+          .catch(error => console.log('error', error));
+      //return response
     }
-   },
-   "outputs": [],
-   "source": [
-    "\n",
-    "<html lang=\"en\">\n",
-    "\n",
-    "<head>\n",
-    "<script>\n",
-    "    //import { uri, options } from '{{site.baseurl}}/assets/js/api/config.js';\n",
-    "\n",
-    "    function login_user() {\n",
-    "      const enteredUid = document.getElementById(\"uid\").value;\n",
-    "      const enteredPassword = document.getElementById(\"password\").value;\n",
-    "      console.log(\"Uid = \" + enteredUid)\n",
-    "      console.log(\"Password = \" + enteredPassword)\n",
-    "      const signupHeaders = new Headers();\n",
-    "      signupHeaders.set('111', '222');\n",
-    "      \n",
-    "      signupHeaders.set(\"Accept\", \"*/*\");\n",
-    "      signupHeaders.set(\"Accept-Language\", \"en-US,en;q=0.9\");\n",
-    "      signupHeaders.set(\"Content-Type\", \"application/json\");\n",
-    "\n",
-    "      login_api(enteredUid,enteredPassword)\n",
-    "        \n",
-    "      }\n",
-    "    \n",
-    "\n",
-    "    function login_api(uid, pw){\n",
-    "      var myHeaders = new Headers();\n",
-    "      myHeaders.append(\"Accept\", \"*/*\");\n",
-    "      myHeaders.append(\"Accept-Language\", \"en-US,en;q=0.9\");\n",
-    "      myHeaders.append(\"Content-Type\", \"application/json\");\n",
-    "      myHeaders.append(\"Cookie\", \"jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfdWlkIjoidG9ueSJ9.jEShka0oXI1-uCuSTfo3ed5WRw3ASLNV0Tpn1kc5GB0\");\n",
-    "\n",
-    "\n",
-    "      var raw = JSON.stringify({\n",
-    "          \"uid\": uid,\n",
-    "          \"password\": pw\n",
-    "        });\n",
-    "\n",
-    "      var requestOptions = {\n",
-    "          method: 'POST',\n",
-    "          headers: myHeaders,\n",
-    "          body: raw,\n",
-    "          redirect: 'follow'\n",
-    "        };\n",
-    "\n",
-    "      fetch(\"http://localhost:8032/api/users/authenticate\", requestOptions)\n",
-    "          .then(response => {\n",
-    "            if (response.ok) {\n",
-    "                console.log(\"User logged in successfully\");\n",
-    "                window.location.href = \"https://drishyamody.github.io/Frontend/weather\"\n",
-    "              } else {\n",
-    "                console.error(\"User login failed\");\n",
-    "                // You can handle failed login attempts here\n",
-    "                const errorMessageDiv = document.getElementById('errorMessage');\n",
-    "                errorMessageDiv.innerHTML = '<label style=\"color: red;\">User Login Failed</label>';\n",
-    "              }\n",
-    "          })\n",
-    "          .then(result => { \n",
-    "            console.log(result);\n",
-    "            \n",
-    "            })\n",
-    "          .catch(error => console.log('error', error));\n",
-    "          \n",
-    "\n",
-    "      \n",
-    "      //return response\n",
-    "    }\n",
-    "\n",
-    "\n",
-    "  </script>\n",
-    "  <meta charset=\"UTF-8\">\n",
-    "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n",
-    "  <title>Login Page</title>\n",
-    "  <link rel=\"stylesheet\" href=\"styles.css\"> <!-- Include the compiled CSS file -->\n",
-    "</head>\n",
-    "\n",
-    "<body>\n",
-    "  <!-- Your HTML login form -->\n",
-    "  <div id=\"errorMessage\"></div>\n",
-    "  <form action=\"javascript:login_user()\">\n",
-    "    <p><label for=\"uid\">User ID:</label>\n",
-    "      <input type=\"text\" name=\"uid\" id=\"uid\" required>\n",
-    "    </p>\n",
-    "    <p><label for=\"password\">Password:</label>\n",
-    "      <input type=\"password\" name=\"password\" id=\"password\" required>\n",
-    "    </p>\n",
-    "    <p>\n",
-    "     <button class=\"button-spacing\">Log In</button>\n",
-    "          <button onClick = \"window.location.href ='https://drishyamody.github.io/DJAKTri2//2023/01/22/Signup_page_demographics.html'\" class=\"button-spacing\" >Sign Up</button>\n",
-    "\n",
-    "      \n",
-    "    </p>\n",
-    "  </form>\n",
-    "\n",
-    "  <!-- Your JavaScript code -->\n",
-    "  \n",
-    "</body>\n",
-    "\n",
-    "</html>"
-   ]
-  }
- ],
- "metadata": {
-  "language_info": {
-   "name": "python"
-  },
-  "orig_nbformat": 4
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+
+
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Include the compiled CSS file -->
+</head>
+
+<body>
+  <!-- Your HTML login form -->
+  <div id="errorMessage"></div>
+  <form action="javascript:login_user()">
+    <p><label for="uid">User ID:</label>
+      <input type="text" name="uid" id="uid" required>
+    </p>
+    <p><label for="password">Password:</label>
+      <input type="password" name="password" id="password" required>
+    </p>
+    <p>
+     <button class="button-spacing">Log In</button>
+          <button onClick = "window.location.href ='http://127.0.0.1:4200/STUDENT2REPO//2024/02/06/signup.html'" class="button-spacing" >Sign Up</button>
+
+      
+    </p>
+  </form>
+
+  <!-- Your JavaScript code -->
+  
+</body>
+
+</html>
